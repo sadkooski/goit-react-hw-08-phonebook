@@ -1,29 +1,46 @@
 import { combineReducers } from 'redux';
+import { addContact, deleteContact, setFilter } from './actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 export const initialState = {
   contacts: JSON.parse(localStorage.getItem('contacts')) || [],
   filter: '',
 };
 
-const contactsReducer = (state = initialState.contacts, action) => {
-  switch (action.type) {
-    case 'contacts/addContact':
-      return [...state, action.payload];
-    case 'contacts/deleteContact':
-      return state.filter(contact => contact.id !== action.payload);
-    default:
-      return state;
-  }
-};
+export const contactsReducer = createReducer(initialState, {
+  [addContact]: (state, action) => {
+    return [...state, action.payload];
+  },
+  [deleteContact]: (state, action) => {
+    return state.filter(contact => contact.id !== action.payload);
+  },
+});
 
-const filterReducer = (state = initialState.filter, action) => {
-  switch (action.type) {
-    case 'filter/setFilter':
-      return action.payload;
-    default:
-      return state;
-  }
-};
+export const filterReducer = createReducer(initialState, {
+  [setFilter]: (state, action) => {
+    return action.payload;
+  },
+});
+
+// const contactsReducer = (state = initialState.contacts, action) => {
+//   switch (action.type) {
+//     case addContact.type:
+//       return [...state, action.payload];
+//     case deleteContact.type:
+//       return state.filter(contact => contact.id !== action.payload);
+//     default:
+//       return state;
+//   }
+// };
+
+// const filterReducer = (state = initialState.filter, action) => {
+//   switch (action.type) {
+//     case setFilter.type:
+//       return action.payload;
+//     default:
+//       return state;
+//   }
+// };
 
 export default combineReducers({
   contacts: contactsReducer,
