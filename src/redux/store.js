@@ -9,7 +9,3 @@ export const store = configureStore({
     filter: filterReducer,
   },
 });
-
-if (!localStorage.getItem('contacts')) {
-  localStorage.setItem('contacts', JSON.stringify([]));
-}

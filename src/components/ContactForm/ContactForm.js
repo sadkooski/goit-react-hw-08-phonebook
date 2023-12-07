@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
 export const ContactForm = () => {
   const contacts = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const dispatch = useDispatch();
 
   const onChange = evt => {
     const { name, value } = evt.target;
@@ -33,7 +33,9 @@ export const ContactForm = () => {
       return;
     }
 
-    dispatch(addContact(name, number));
+    dispatch(addContact({ name, number }));
+    setName('');
+    setNumber('');
   };
 
   return (

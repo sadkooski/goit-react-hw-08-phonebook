@@ -29,8 +29,8 @@ const App = () => {
     }
   }, [contactsArr]);
 
-  console.log('Stan contacts:', contactsArr.contacts);
-  const filteredContacts = contactsArr.contacts.filter(
+  console.log('Stan contacts:', contactsArr);
+  const filteredContacts = contactsArr.filter(
     contact =>
       typeof contact.name === 'string' &&
       contact.name.toLowerCase().includes(filter)
