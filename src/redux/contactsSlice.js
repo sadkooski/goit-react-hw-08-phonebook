@@ -1,4 +1,5 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { fetchContacts } from './operations';
 
 const storedContacts = localStorage.getItem('contacts');
 export const contactsInitialState = {
@@ -12,23 +13,23 @@ const contactsSlice = createSlice({
   initialState: contactsInitialState,
 
   reducers: {
-    fetchingInProgress(state) {
-      state.isLoading = true;
-      console.log('loading');
-    },
+    // fetchingInProgress(state) {
+    //   state.isLoading = true;
+    //   console.log('loading');
+    // },
 
-    fetchingSuccess(state, action) {
-      state.isLoading = false;
-      state.error = null;
-      state.contacts = action.payload;
-      console.log('success', action.payload);
-    },
+    // fetchingSuccess(state, action) {
+    //   state.isLoading = false;
+    //   state.error = null;
+    //   state.contacts = action.payload;
+    //   console.log('success', action.payload);
+    // },
 
-    fetchingError(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-      console.log('error', action.payload);
-    },
+    // fetchingError(state, action) {
+    //   state.isLoading = false;
+    //   state.error = action.payload;
+    //   console.log('error', action.payload);
+    // },
 
     addContact: {
       reducer(state, action) {
@@ -66,13 +67,35 @@ const contactsSlice = createSlice({
       },
     },
   },
+
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.contacts = action.payload;
+      })
+      .addCase(fetchContacts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+  },
+  // extraReducers: (builder) => {
+  //   builder
+  //       .addCase(fetchContacts.pending, (state, action) {      state.isLoading = true;
+  //         console.log('loading');})
+  //       .addCase(fetchContacts.fulfilled, (state, action) {  state.isLoading = false;
+  //         state.error = null;
+  //         state.contacts = action.payload;
+  //         console.log('success', action.payload);})
+  //       .addCase(fetchContacts.rejected, (state, action) {state.isLoading = false;
+  //         state.error = action.payload;
+  //         console.log('error', action.payload);})
+  // },
 });
 
-export const {
-  addContact,
-  deleteContact,
-  fetchingInProgress,
-  fetchingSuccess,
-  fetchingError,
-} = contactsSlice.actions;
+export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
