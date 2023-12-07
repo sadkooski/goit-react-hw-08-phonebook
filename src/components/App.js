@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../redux/actions';
+import { addContact } from '../redux/contactsSlice';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contactsArr = useSelector(state => state.contacts);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
@@ -23,13 +23,14 @@ const App = () => {
 
   useEffect(() => {
     try {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
+      localStorage.setItem('contacts', JSON.stringify(contactsArr));
     } catch (error) {
       console.error('Error while saving contacts to localStorage:', error);
     }
-  }, [contacts]);
+  }, [contactsArr]);
 
-  const filteredContacts = contacts.filter(
+  console.log('Stan contacts:', contactsArr.contacts);
+  const filteredContacts = contactsArr.contacts.filter(
     contact =>
       typeof contact.name === 'string' &&
       contact.name.toLowerCase().includes(filter)
