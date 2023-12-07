@@ -1,19 +1,38 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const storedContacts = localStorage.getItem('contacts');
-export const initialState = {
+export const contactsInitialState = {
   contacts: storedContacts ? JSON.parse(storedContacts) : [],
-  filter: '',
+  isLoading: false,
+  error: null,
 };
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: initialState.contacts,
+  initialState: contactsInitialState,
 
   reducers: {
+    fetchingInProgress(state) {
+      state.isLoading = true;
+      console.log('loading');
+    },
+
+    fetchingSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.contacts = action.payload;
+      console.log('success', action.payload);
+    },
+
+    fetchingError(state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
+      console.log('error', action.payload);
+    },
+
     addContact: {
       reducer(state, action) {
-        state.push(action.payload);
+        state.contacts.push(action.payload);
         console.log('State przed usuwaniem:', state.concats, action.payload);
       },
       prepare(data) {
@@ -31,8 +50,10 @@ const contactsSlice = createSlice({
       reducer(state, action) {
         console.log('State przed usuwaniem:', state);
 
-        const index = state.findIndex(task => task.id === action.payload);
-        state.splice(index, 1);
+        const index = state.contacts.findIndex(
+          task => task.id === action.payload
+        );
+        state.contacts.splice(index, 1);
         // state.contacts = state.contacts.filter(
         //   contact => contact.id !== action.payload
         // );
@@ -47,5 +68,11 @@ const contactsSlice = createSlice({
   },
 });
 
-export const { addContact, deleteContact } = contactsSlice.actions;
+export const {
+  addContact,
+  deleteContact,
+  fetchingInProgress,
+  fetchingSuccess,
+  fetchingError,
+} = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
