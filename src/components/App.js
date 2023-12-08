@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { addContact } from '../redux/contactsSlice';
 import { addContact } from '../redux/operations';
 import {
-  getContacts,
-  getFilter,
-  getError,
-  getIsLoading,
+  selectContacts,
+  selectFilter,
+  selectError,
+  selectIsLoading,
 } from '../redux/selectors';
 import { fetchContacts } from '../redux/operations';
 
@@ -18,10 +18,10 @@ const App = () => {
   // const contactsArr = useSelector(state => state.contacts);
   // const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
-  const { contacts } = useSelector(getContacts);
-  const { filter } = useSelector(getFilter);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  const { contacts } = useSelector(selectContacts);
+  const { filter } = useSelector(selectFilter);
 
   useEffect(() => {
     dispatch(fetchContacts());
