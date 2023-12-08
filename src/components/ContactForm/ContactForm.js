@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsSlice';
+// import { addContact } from '../../redux/contactsSlice';
 import { getContacts } from '../../redux/selectors';
+import { addContact } from '../../redux/operations';
 
 export const ContactForm = () => {
   // const contacts = useSelector(state => state.contacts);
@@ -35,6 +36,10 @@ export const ContactForm = () => {
       alert(`${name} is already in contacts.`);
       return;
     }
+
+    const form = evt.target;
+    dispatch(addContact(evt.target.elements.text.value));
+    form.reset();
 
     dispatch(addContact({ name, number }));
     setName('');

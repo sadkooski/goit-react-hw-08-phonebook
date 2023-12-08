@@ -1,18 +1,27 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../redux/contactsSlice';
+// import { addContact } from '../redux/contactsSlice';
+import { addContact } from '../redux/operations';
+import {
+  getContacts,
+  getFilter,
+  getError,
+  getIsLoading,
+} from '../redux/selectors';
+import { fetchContacts } from '../redux/operations';
+
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
-import { getContacts } from '../redux/selectors';
-import { fetchContacts } from '../redux/operations';
 
 const App = () => {
   // const contactsArr = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  // const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
-
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
   const { contacts } = useSelector(getContacts);
+  const { filter } = useSelector(getFilter);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -59,6 +68,7 @@ const App = () => {
       {/* {isLoading && <p>Loading contacts...</p>}
       {error && <p>{error}</p>}
       <p>{contacts.length > 0 && JSON.stringify(contacts, null, 2)}</p> */}
+      {isLoading && !error && <b>Request in progress...</b>}
       <h1>Phonebook</h1>
       <ContactForm />
       <h2>Contacts</h2>
