@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setFilter } from '../../redux/operations';
+import { setFilter } from '../../redux/contacts/operations';
 
 export const Filter = () => {
   const dispatch = useDispatch();

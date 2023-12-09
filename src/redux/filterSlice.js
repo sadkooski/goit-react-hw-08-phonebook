@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setFilter } from './operations';
+import { setFilter } from '../redux/contacts/operations';
 
 export const filterInitialState = {
   filter: '',

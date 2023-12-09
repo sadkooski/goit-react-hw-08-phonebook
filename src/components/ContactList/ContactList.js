@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-// import { deleteContact } from '../../redux/contactsSlice';
-import { deleteContact } from '../../redux/operations';
+import { deleteContact } from '../../redux/contacts/operations';
+import css from '../ContactForm/ContactForm.module.css';
 
 export const ContactList = ({ contacts }) => {
   const dispatch = useDispatch();
 
   return (
     <div>
-      <ul>
+      <ul className={css.list}>
         {contacts.map(contact => (
           <li key={contact.id}>
             {contact.name} {contact.number}
